@@ -12,36 +12,28 @@
 		var chat = function(rootDivId) {
 	
 			var eb = new EventBus();
-			var chatRoom1 = new ChatRoom();
+			var chatRoom = new ChatRoom();
 			
 			var user1 = {
-				name: 'vasya',
-				renderUI: function(message) {
-					chatRoom1.onMessage(message);
-					
-				}
+				name: 'vasya'
 			};
 			var user2 = {
-				name: 'masha',
-				renderUI: function(message) {
-					chatRoom1.onMessage(message);
-				}
+				name: 'masha'
 			};
 			
-			var users = [user1.name, user2.name];
+			var users = [user1, user2];
 	
 			for(var i = 0; i < users.length; i++) {
-					(new generateHtml(users[i])).innerCode();
+					(new generateHtml(users[i].name)).innerCode();
 			}
 			(new generateHtml()).chatArea();
 			
-			listnerClick(users, function(text) {				
-				eb.postMessage(text);
-			});	
+			listnerClick(users, function(message) {
+				eb.postMessage(message);
+			});
 			
-			eb.registerConsumer(user1.renderUI, user2);
-			//eb.registerConsumer(user2.renderUI, user2);
-				
+			eb.registerConsumer(user1, chatRoom.onMessage.bind(chatRoom));
+			eb.registerConsumer(user2, chatRoom.onMessage.bind(chatRoom));
 		}
 
 	$(function() {
