@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head> 
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+	<script type="text/javascript" src="listnerClick.js"> </script>
+	<script type="text/javascript" src="eventbus.js"> </script>	
+	<script type="text/javascript" src="generateInnerHtml.js"> </script>
+	<script type="text/javascript" src="message.js"> </script>
+	<script type="text/javascript" src="chatRoom.js"> </script>
+	<script type="text/javascript">
+		var chat = function(rootDivId) {
+	
+			var eb = new EventBus();
+			var chatRoom1 = new ChatRoom();
+			
+			var user1 = {
+				name: 'vasya',
+				renderUI: function(message) {
+					chatRoom1.onMessage(message);
+					
+				}
+			};
+			var user2 = {
+				name: 'masha',
+				renderUI: function(message) {
+					chatRoom1.onMessage(message);
+				}
+			};
+			
+			var users = [user1.name, user2.name];
+	
+			for(var i = 0; i < users.length; i++) {
+					(new generateHtml(users[i])).innerCode();
+			}
+			(new generateHtml()).chatArea();
+			
+			listnerClick(users, function(text) {				
+				eb.postMessage(text);
+			});	
+			
+			eb.registerConsumer(user1.renderUI, user2);
+			//eb.registerConsumer(user2.renderUI, user2);
+				
+		}
+
+	$(function() {
+		new chat('Main_chat');
+	});
+
+</script>
+
+</head>
+
+<body> 
+
+Vasya:
+<div id='vasya'> </div>
+
+Masha:
+<div id='masha'> </div>
+
+Chat area:
+<div id='chatArea'> </div>
+
+
+</body>
+
+ </html>
