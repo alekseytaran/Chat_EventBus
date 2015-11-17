@@ -3,7 +3,10 @@ var ChatRoom = function() {
 };
 
  ChatRoom.prototype.onMessage = function(message) {
-     this._allDialog.push(message.author.name + ": " + message.message);
+     if (message.message !== '') {
+         this._allDialog.push(message.author.name + ": " + message.message);
+     }
+
 
      function renderUI(allDialog) {
          var chat = document.getElementById('chatAreaText');
