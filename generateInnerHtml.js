@@ -9,7 +9,7 @@ var generateHtml = function(name) {
 			$("#" + name).html(innerHtml);
 		},
 		chatArea : function() {
-			var innerHtml = '<textarea id="chatArea" rows="5" cols="30" maxlength="200"></textarea>';
+			var innerHtml = '<textarea id="chatAreaText" rows="5" cols="30" maxlength="200"></textarea>';
 			
 			$("#chatArea").html(innerHtml);
 		}
