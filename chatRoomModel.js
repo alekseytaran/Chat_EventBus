@@ -1,14 +1,14 @@
 var ChatRoomModel = function(eb, users) {
     this._eb = eb;
     this._allDialogs = [];
-    usersOfDialogs = users;
+    this._userOfDialogs = users;
 };
 
  ChatRoomModel.prototype.validatedToPush = function(message) {
      if (message.message !== '') {
-         for (var i = 0; i < usersOfDialogs.length; i++) {
-             if(message.userId == usersOfDialogs[i].userId) {
-                 this._allDialogs.push(usersOfDialogs[i].name + ": " + message.message);
+         for (var i = 0; i < this._userOfDialogs.length; i++) {
+             if(message.userId == this._userOfDialogs[i].userId) {
+                 this._allDialogs.push(this._userOfDialogs[i].name + ": " + message.message);
              }
          }
 
