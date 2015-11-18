@@ -1,6 +1,6 @@
-function Message(user, message) {
+function Message(userId, message) {
 	return {
-		author: user,
-        message: message
+		'userId': userId,
+        'message': message
 	};
 }

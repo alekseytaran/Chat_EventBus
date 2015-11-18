@@ -3,37 +3,27 @@
 
 <head> 
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
-	<script type="text/javascript" src="listnerClick.js"> </script>
-	<script type="text/javascript" src="eventbus.js"> </script>	
-	<script type="text/javascript" src="generateInnerHtml.js"> </script>
+    <script type="text/javascript" src="user.js"> </script>
+    <script type="text/javascript" src="eventbus.js"> </script>
 	<script type="text/javascript" src="message.js"> </script>
-	<script type="text/javascript" src="chatRoom.js"> </script>
+    <script type="text/javascript" src="chatRoomView.js"> </script>
+	<script type="text/javascript" src="chatRoomModel.js"> </script>
 	<script type="text/javascript">
 		var chat = function(rootDivId) {
-	
-			var eb = new EventBus();
-			var chatRoom = new ChatRoom();
-			
-			var user1 = {
-				name: 'vasya'
-			};
-			var user2 = {
-				name: 'masha'
-			};
-			
-			var users = [user1, user2];
-	
-			for(var i = 0; i < users.length; i++) {
-					(new generateHtml(users[i].name)).innerCode();
-			}
-			(new generateHtml()).chatArea();
-			
-			listnerClick(users, function(message) {
-				eb.postMessage(message);
+
+            var eb = new EventBus();
+            var users = [new User('vasya', 0), new User('masha', 1), new User('dasha', 2)];
+
+			var chatRoomModel = new ChatRoomModel(eb, users);
+
+            var chatRoomView = new ChatRoomView(users);
+            chatRoomView.init();
+
+			chatRoomView.listnerClick(eb, function(message) {
+				eb.postMessage("ADDED_MESSAGE", message);
 			});
-			
-			eb.registerConsumer(user1, chatRoom.onMessage.bind(chatRoom));
-			eb.registerConsumer(user2, chatRoom.onMessage.bind(chatRoom));
+			eb.registerConsumer("ADDED_MESSAGE", chatRoomModel.validatedToPush.bind(chatRoomModel));
+            eb.registerConsumer("RERENDER_UI", chatRoomView.renderUI);
 		}
 
 	$(function() {
@@ -51,6 +41,9 @@ Vasya:
 
 Masha:
 <div id='masha'> </div>
+
+Dasha:
+<div id='dasha'> </div>
 
 Chat area:
 <div id='chatArea'> </div>
