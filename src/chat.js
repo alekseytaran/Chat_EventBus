@@ -1,20 +1,21 @@
-var chat = function(rootDivId) {
+var chat = function(rootDivId, users) {
 
     var eb = new EventBus();
-    var users = [new User('stas', 0), new User('ira', 1), new User('dasha', 2)];
 
     var chatRoomModel = new ChatRoomModel(eb, users);
 
     var chatRoomView = new ChatRoomView(users);
-    chatRoomView.init();
 
-    chatRoomView.listnerClick(eb, function(message) {
-        eb.postMessage("ADDED_MESSAGE", message);
-    });
+    chatRoomView.init(rootDivId);
+
+    chatRoomView.listnerClick(eb);
     eb.registerConsumer("ADDED_MESSAGE", chatRoomModel.validatedToPush.bind(chatRoomModel));
     eb.registerConsumer("RERENDER_UI", chatRoomView.renderUI);
+
+
 }
 
 $(function() {
-    new chat('Main_chat');
+    new chat('Main_chat', [new User('stas', 0), new User('ira', 1), new User('dasha', 2)]);
+    new chat('Second_chat', [new User('vasya', 0)]);
 });

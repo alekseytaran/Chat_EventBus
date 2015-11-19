@@ -1,21 +1,26 @@
 var ChatRoomView = function(users) {
     return {
-        "init": function () {
+        "init": function (rootDivId) {
+            var innerHtml = '';
+
+            for(var i = 0; i < users.length; i++) {
+                innerHtml += '<div id="' + users[i].name + '_name">' + users[i].name + ':</div>'
+                innerHtml += '<div id="' + users[i].name + '"> </div>';
+            }
+            innerHtml += '<div id="chatAreaDialog" style="width: 180px; height: 150px; background-color:#E8EDF2"></div>'
+            $("#" + rootDivId).html(innerHtml);
+
             for(var i = 0; i < users.length; i++) {
                 var textarea = users[i].name + '_textarea';
                 var button = users[i].name + '_button';
-                var innerHtml = '<textarea id="' + textarea + '" userId = "' + users[i].userId + '" rows="1" cols="15" maxlength="55"></textarea>' +
+                innerHtml = '<textarea id="' + textarea + '" userId = "' + users[i].userId + '" rows="1" cols="15" maxlength="55"></textarea>' +
                     '<button id="' + button + '"> Send! </button>';
 
                 $("#" + users[i].name).html(innerHtml);
             }
-
-            var innerHtmlChat = '<div id="chatAreaDialog" rows="5" cols="30" maxlength="200"></div>';
-
-            $("#chatArea").html(innerHtmlChat);
         },
 
-        "listnerClick": function(eb, callback) {
+        "listnerClick": function(eb) {
             var text = '';
             for(var i = 0, len = users.length; i < len; i++) {
                 var catchIndex = (function(x) {
@@ -24,7 +29,6 @@ var ChatRoomView = function(users) {
                         text = $('#' + currentName + '_textarea').val();
                         var userId = $('#' + currentName + '_textarea').attr('userId');
                         eb.postMessage("ADDED_MESSAGE", (new Message(userId, text)));
-                        //callback(new Message(userId, text));
                     });
                 })(i);
             }
