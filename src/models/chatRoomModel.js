@@ -1,7 +1,7 @@
 var ChatRoomModel = function(eb, users) {
     this._eb = eb;
-    this._allDialogs = [];
     this._userOfDialogs = users;
+    this._allDialogs = [];
 };
 
  ChatRoomModel.prototype.validatedToPush = function(message) {
@@ -15,4 +15,8 @@ var ChatRoomModel = function(eb, users) {
          this._eb.postMessage("RERENDER_UI", this._allDialogs);
      }
  };
+
+ChatRoomModel.prototype.getAllDialogs = function() {
+    return this._allDialogs;
+};
 
