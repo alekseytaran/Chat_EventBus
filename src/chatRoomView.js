@@ -1,13 +1,14 @@
-var ChatRoomView = function(users) {
+var ChatRoomView = function(users, rootDivId) {
+    var allText = '';
     return {
-        "init": function (rootDivId) {
+        "init": function () {
             var innerHtml = '';
 
             for(var i = 0; i < users.length; i++) {
                 innerHtml += '<div id="' + users[i].name + '_name">' + users[i].name + ':</div>'
                 innerHtml += '<div id="' + users[i].name + '"> </div>';
             }
-            innerHtml += '<div id="chatAreaDialog" style="width: 180px; height: 150px; background-color:#E8EDF2"></div>'
+            innerHtml += '<div id="chatAreaDialog' + rootDivId +'" style="width: 180px; height: 150px; background-color:#E8EDF2"></div>'
             $("#" + rootDivId).html(innerHtml);
 
             for(var i = 0; i < users.length; i++) {
@@ -35,12 +36,12 @@ var ChatRoomView = function(users) {
         },
 
         "renderUI": function(allDialogs) {
-            var chat = document.getElementById('chatAreaDialog');
-            var allText = '';
+            var chat = document.getElementById('chatAreaDialog' + rootDivId);
             for (var i = 0; i < allDialogs.length; i++) {
                 allText += allDialogs[i] + "</br>";
             }
             chat.innerHTML = allText;
+            allText = '';
         }
     };
 };

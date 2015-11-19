@@ -7,15 +7,25 @@
     <script src="./lib/mocha.js"></script>
     <script>mocha.setup('bdd')</script>
     <script>
-      function assert(expr, msg) {
-        if (!expr) throw new Error(msg || 'failed');
-      }
+        function assert(condition, message) {
+            if (!condition) {
+                message = message || "Assertion failed";
+                if (typeof Error !== "undefined") {
+                    throw new Error(message);
+                }
+                throw message;
+            }
+        }
     </script>
-      <script src="./models/user.js"></script>
-      <script src="./chatRoomView.js"></script>
-      <script src="./eventbus.js"></script>
-      <script src="./models/chatRoomModel.js"></script>
+      <!--<script src="./models/user.js"></script>-->
+      <!--<script src="./models/chatRoomModel.js"></script>-->
+      <!--<script src="./models/message.js"></script>-->
+      <!--<script src="./chatRoomView.js"></script>-->
+      <!--<script src="./chat.js"></script>-->
+      <!--<script src="./eventbus.js"></script>-->
+
       <script src="chatRoomViewTest.js"> </script>
+
       <script>
       onload = function(){
         var runner = mocha.run();
