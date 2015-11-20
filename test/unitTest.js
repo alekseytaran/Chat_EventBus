@@ -27,23 +27,24 @@ describe("check event model", function() {
 
     var counterVisit = 0;
 
-    eb.registerConsumer("ADDED_MESSAGE", function (message) {
+    eb.registerConsumer("TEST_TOPIC", function () {
         counterVisit++;
     });
 
     it("check event model with valid data", function() {
-        eb.postMessage('ADDED_MESSAGE', message);
+        eb.postMessage('TEST_TOPIC', message);
         setTimeout(function() {
             assert(counterVisit === 1, "counterVisit !== 1");
         }, 10);
     });
 
     it("check event model with invalid data", function() {
-        eb.postMessage('INVALID_ADDED_MESSAGE', message);
+        eb.postMessage('INVALID_TEST_TOPIC', message);
         setTimeout(function() {
             assert(counterVisit === 1, "counterVisit !== 1");
         }, 10);
     });
 
 });
+
 
